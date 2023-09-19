@@ -29,6 +29,7 @@ fn main() {
         })
         .expect("couldn't find a graphical queue family") as u32;
 
+
     use vulkano::device::{Device, DeviceCreateInfo, QueueCreateInfo};
 
     let (device, mut queues) = Device::new(
@@ -46,9 +47,29 @@ fn main() {
 
     let queue = queues.next().unwrap();
 
+
     use vulkano::memory::allocator::StandardMemoryAllocator;
 
     let memory_allocator = StandardMemoryAllocator::new_default(device.clone());
+
+    use vulkano::buffer::{Buffer, BufferCreateInfo, BufferUsage};
+    use vulkano::memory::allocator::{AllocationCreateInfo, MemoryUsage};
+
+    let data_array: [[i32; 2]; 3] = [[13, 12],[1,2],[4,14]];  // An array containing the three i32 values
+    let buffer = Buffer::from_data(
+        &memory_allocator,
+        BufferCreateInfo {
+            usage: BufferUsage::UNIFORM_BUFFER,
+            ..Default::default()
+        },
+        AllocationCreateInfo {
+            usage: MemoryUsage::Upload,
+            ..Default::default()
+        },
+        data_array,
+    )
+        .expect("failed to create buffer");
+
 
 
 }
