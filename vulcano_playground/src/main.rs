@@ -44,5 +44,10 @@ fn main() {
     )
         .expect("failed to create device");
 
+
+    use vulkano::memory::allocator::StandardMemoryAllocator;
+
+    let memory_allocator = StandardMemoryAllocator::new_default(device.clone());
+    let queue = queues.next().unwrap();
 }
 
